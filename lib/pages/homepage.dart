@@ -1,3 +1,4 @@
+import 'package:favorite_spots_app/pages/add_place.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,12 +8,12 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget screen = Center(
-        child: Text(
-      "No Places Found!",
-      style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            color: Theme.of(context).colorScheme.onBackground,
-          ),
-    ),
+      child: Text(
+        "No Places Found!",
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+      ),
     );
 
     return Scaffold(
@@ -28,7 +29,13 @@ class Homepage extends StatelessWidget {
             ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const AddPlace(),
+                ),
+              );
+            },
             icon: const Icon(
               Icons.add,
               color: Colors.black,
