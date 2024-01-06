@@ -1,12 +1,17 @@
 import 'package:favorite_spots_app/pages/add_place.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:favorite_spots_app/pages/place_details.dart';
+import 'package:favorite_spots_app/providers/place_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../widgets/places_list.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends ConsumerWidget {
   const Homepage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    //listens to data changes
+    final placesList = ref.watch(placeProvider);
     Widget screen = Center(
       child: Text(
         "No Places Found!",
@@ -15,6 +20,15 @@ class Homepage extends StatelessWidget {
             ),
       ),
     );
+    if (placesList.isNotEmpty) {
+      screen = PlaceList(goToPage: (places) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => PlaceDetails(place: places),
+          ),
+        );
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +46,7 @@ class Homepage extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => const AddPlace(),
+                  builder: (context) => AddPlace(),
                 ),
               );
             },

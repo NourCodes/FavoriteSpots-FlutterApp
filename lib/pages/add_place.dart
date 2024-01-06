@@ -1,15 +1,25 @@
-import 'package:flutter/cupertino.dart';
+import 'package:favorite_spots_app/providers/place_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddPlace extends StatefulWidget {
+class AddPlace extends ConsumerStatefulWidget {
   const AddPlace({super.key});
 
   @override
-  State<AddPlace> createState() => _AddPlaceState();
+  ConsumerState<AddPlace> createState() => _AddPlaceState();
 }
 
-class _AddPlaceState extends State<AddPlace> {
+class _AddPlaceState extends ConsumerState<AddPlace> {
   final controller = TextEditingController();
+
+  void addPlace() {
+    final place = controller.text;
+    if (place.isEmpty) {
+      return;
+    }
+    ref.read(placeProvider.notifier).addPlace(place);
+    Navigator.of(context).pop();
+  }
 
   @override
   void dispose() {
@@ -64,7 +74,7 @@ class _AddPlaceState extends State<AddPlace> {
                   ),
                 ),
               ),
-              onPressed: () => () {},
+              onPressed: () => addPlace(),
               label: const Text(
                 "Add",
                 style: TextStyle(
