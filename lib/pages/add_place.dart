@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:favorite_spots_app/providers/place_provider.dart';
+import 'package:favorite_spots_app/widgets/image_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,14 +12,15 @@ class AddPlace extends ConsumerStatefulWidget {
 }
 
 class _AddPlaceState extends ConsumerState<AddPlace> {
+  File? selectedImage;
   final controller = TextEditingController();
 
   void addPlace() {
     final place = controller.text;
-    if (place.isEmpty) {
+    if (place.isEmpty || selectedImage == null) {
       return;
     }
-    ref.read(placeProvider.notifier).addPlace(place);
+    ref.read(placeProvider.notifier).addPlace(place, selectedImage!);
     Navigator.of(context).pop();
   }
 
@@ -60,6 +63,12 @@ class _AddPlaceState extends ConsumerState<AddPlace> {
                 ),
                 labelText: 'Title',
               ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            ImageContainer(
+              onSelectedImage: (image) => selectedImage = image,
             ),
             const SizedBox(
               height: 15,

@@ -1,5 +1,4 @@
 import 'package:favorite_spots_app/pages/add_place.dart';
-import 'package:favorite_spots_app/pages/place_details.dart';
 import 'package:favorite_spots_app/providers/place_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,13 +20,12 @@ class Homepage extends ConsumerWidget {
       ),
     );
     if (placesList.isNotEmpty) {
-      screen = PlaceList(goToPage: (places) {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => PlaceDetails(place: places),
-          ),
-        );
-      });
+      screen = Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: PlaceList(
+          places: placesList,
+        ),
+      );
     }
 
     return Scaffold(
@@ -46,7 +44,7 @@ class Homepage extends ConsumerWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => AddPlace(),
+                  builder: (context) => const AddPlace(),
                 ),
               );
             },

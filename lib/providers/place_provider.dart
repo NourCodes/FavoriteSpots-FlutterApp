@@ -1,13 +1,14 @@
+import 'dart:io';
 import 'package:riverpod/riverpod.dart';
-
 import '../models/place_model.dart';
 
 class PlacesNotifier extends StateNotifier<List<Place>> {
   PlacesNotifier() : super(const []);
 
-  void addPlace(String place) {
+  void addPlace(String place, File image) {
     final newPlace = Place(
       title: place,
+      image: image,
     );
     state = [
       ...state,
