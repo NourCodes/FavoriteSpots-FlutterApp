@@ -49,7 +49,12 @@ dev_dependencies:
   google_fonts:
   uuid:
   flutter_riverpod:
-  image_picker: 
+  image_picker:
+  location:
+    git:
+      url: git@github.com:asaarnak/flutterlocation.git
+      ref: patch-1
+      path: packages/location
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

@@ -3,6 +3,7 @@ import 'package:favorite_spots_app/providers/place_provider.dart';
 import 'package:favorite_spots_app/widgets/image_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:favorite_spots_app/widgets/location_container.dart';
 
 class AddPlace extends ConsumerStatefulWidget {
   const AddPlace({super.key});
@@ -73,6 +74,7 @@ class _AddPlaceState extends ConsumerState<AddPlace> {
             const SizedBox(
               height: 15,
             ),
+            LocationContainer(),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white10,
@@ -94,6 +96,9 @@ class _AddPlaceState extends ConsumerState<AddPlace> {
                 Icons.add,
                 color: Colors.black87,
               ),
+            ),
+            const SizedBox(
+              height: 15,
             ),
           ],
         ),
