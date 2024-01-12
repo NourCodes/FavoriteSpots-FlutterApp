@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:favorite_spots_app/models/place_model.dart';
 import 'package:favorite_spots_app/providers/place_provider.dart';
 import 'package:favorite_spots_app/widgets/image_container.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +16,15 @@ class AddPlace extends ConsumerStatefulWidget {
 class _AddPlaceState extends ConsumerState<AddPlace> {
   File? selectedImage;
   final controller = TextEditingController();
-
+  PlaceLoc? selectedLocation;
   void addPlace() {
     final place = controller.text;
-    if (place.isEmpty || selectedImage == null) {
+    if (place.isEmpty || selectedImage == null || selectedLocation == null) {
       return;
     }
-    ref.read(placeProvider.notifier).addPlace(place, selectedImage!);
+    ref
+        .read(placeProvider.notifier)
+        .addPlace(place, selectedImage!, selectedLocation!);
     Navigator.of(context).pop();
   }
 
@@ -74,7 +77,11 @@ class _AddPlaceState extends ConsumerState<AddPlace> {
             const SizedBox(
               height: 15,
             ),
-            LocationContainer(),
+            LocationContainer(
+              onSelectedLoc: (location) {
+                selectedLocation = location;
+              },
+            ),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white10,

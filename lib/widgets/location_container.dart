@@ -1,8 +1,12 @@
+import 'package:favorite_spots_app/models/place_model.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'map.dart';
 
 class LocationContainer extends StatefulWidget {
-  const LocationContainer({Key? key}) : super(key: key);
+  final void Function(PlaceLoc location) onSelectedLoc;
+  const LocationContainer({Key? key, required this.onSelectedLoc})
+      : super(key: key);
 
   @override
   State<LocationContainer> createState() => _LocationContainerState();
@@ -10,7 +14,18 @@ class LocationContainer extends StatefulWidget {
 
 class _LocationContainerState extends State<LocationContainer> {
   var getLocation = false;
-  Location? selectedLocation;
+  PlaceLoc? selectedLocation;
+
+  Maps get locationPic {
+    final lat = selectedLocation!.lat;
+    final long = selectedLocation!.long;
+    return Maps(
+      lat: lat,
+      long: long,
+      zoomIn: 17.0,
+    );
+  }
+
   void getCurrentLocation() async {
     Location location = Location();
     bool serviceEnabled = await location.serviceEnabled();
@@ -33,11 +48,17 @@ class _LocationContainerState extends State<LocationContainer> {
     setState(() {
       getLocation = true;
     });
+
     locationData = await location.getLocation();
-    print(locationData.latitude);
+
     setState(() {
+      selectedLocation = PlaceLoc(
+        long: locationData.longitude!,
+        lat: locationData.latitude!,
+      );
       getLocation = false;
     });
+    widget.onSelectedLoc(selectedLocation!);
   }
 
   @override
@@ -49,6 +70,9 @@ class _LocationContainerState extends State<LocationContainer> {
             color: Theme.of(context).colorScheme.onBackground,
           ),
     );
+    if (selectedLocation != null) {
+      screen = locationPic;
+    }
     if (getLocation) {
       screen = const CircularProgressIndicator();
     }
@@ -74,7 +98,15 @@ class _LocationContainerState extends State<LocationContainer> {
               label: const Text("Get Location"),
             ),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => Maps(
+                    zoomIn: 10.0,
+                    lat: selectedLocation?.lat ?? 51.509364,
+                    long: selectedLocation?.long ?? -0.128928,
+                  ),
+                ),
+              ),
               icon: const Icon(Icons.map),
               label: const Text(
                 "Select on Map",
