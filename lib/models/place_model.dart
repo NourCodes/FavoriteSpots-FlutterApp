@@ -18,7 +18,9 @@ class Place {
 class PlaceLoc {
   final double lat;
   final double long;
+  final String address;
   PlaceLoc({
+    required this.address,
     required this.long,
     required this.lat,
   });

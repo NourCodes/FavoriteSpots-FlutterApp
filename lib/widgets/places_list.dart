@@ -5,7 +5,10 @@ import '../pages/place_details.dart';
 class PlaceList extends StatelessWidget {
   List<Place> places;
 
-  PlaceList({super.key, required this.places});
+  PlaceList({
+    super.key,
+    required this.places,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +30,7 @@ class PlaceList extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onBackground,
               ),
         ),
+        subtitle: Text(places[index].loc!.address),
       ),
     );
   }

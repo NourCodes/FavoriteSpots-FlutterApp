@@ -20,7 +20,13 @@ class _AddPlaceState extends ConsumerState<AddPlace> {
   void addPlace() {
     final place = controller.text;
     if (place.isEmpty || selectedImage == null || selectedLocation == null) {
+      print(place);
+      print(selectedLocation);
+      print(selectedImage);
       return;
+    } else {
+      print(
+          "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
     }
     ref
         .read(placeProvider.notifier)

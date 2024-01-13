@@ -54,7 +54,9 @@ dev_dependencies:
   flutter_map: ^6.1.0
   latlong2:
   url_launcher: ^6.2.3
-
+  location_picker_flutter_map: ^3.0.0
+  geolocator: ^10.1.0
+  geocoding:
   location:
     git:
       url: git@github.com:asaarnak/flutterlocation.git
