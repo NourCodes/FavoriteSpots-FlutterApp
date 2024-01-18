@@ -5,7 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'map.dart';
 import 'package:geolocator/geolocator.dart';
 
-/// widget for managing location container
+//widget for managing location container
 class LocationContainer extends StatefulWidget {
   /// callback for handling selected location
   final void Function(PlaceLoc location) onSelectedLoc;
@@ -24,14 +24,14 @@ class _LocationContainerState extends State<LocationContainer> {
   // address
   String? address;
 
-  // getters for location picture
-  Maps get locationPic {
+  // getter for location map
+  Maps get locationMap {
     final lat = selectedLocation?.lat;
     final long = selectedLocation?.long;
     return Maps(
       lat: lat!,
       long: long!,
-      zoomIn: 5.0,
+      zoomIn: 10.0,
     );
   }
 
@@ -52,10 +52,6 @@ class _LocationContainerState extends State<LocationContainer> {
     // request permission if denied.
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission != LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Location permissions are denied')));
-      }
     }
 
     // remove the circular indicator for location retrieval
@@ -108,7 +104,7 @@ class _LocationContainerState extends State<LocationContainer> {
 
     // check if location is selected
     if (selectedLocation != null) {
-      screen = locationPic;
+      screen = locationMap;
     }
 
     // check if location retrieval is in progress
@@ -149,12 +145,15 @@ class _LocationContainerState extends State<LocationContainer> {
                       change: (data) {
                         setState(() {
                           selectedLocation = PlaceLoc(
-                              long: data.latLong.longitude,
-                              lat: data.latLong.latitude,
-                              address: data.address);
+                            long: data.latLong.longitude,
+                            lat: data.latLong.latitude,
+                            address: data.address,
+                          );
                         });
                       },
                       pick: (data) {
+                        getLocation = true;
+
                         setState(() {
                           selectedLocation = PlaceLoc(
                               long: data.latLong.longitude,
@@ -166,6 +165,7 @@ class _LocationContainerState extends State<LocationContainer> {
                           widget.onSelectedLoc(selectedLocation!);
                         });
                         Navigator.of(context).pop();
+                        getLocation = false;
                       },
                     ),
                   ),

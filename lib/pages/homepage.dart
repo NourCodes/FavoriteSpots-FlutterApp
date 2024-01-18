@@ -2,11 +2,12 @@ import 'package:favorite_spots_app/pages/add_place.dart';
 import 'package:favorite_spots_app/providers/place_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../models/place_model.dart';
 import '../widgets/places_list.dart';
 
 class Homepage extends ConsumerWidget {
-  const Homepage({super.key});
-
+  Homepage({super.key});
+  PlaceLoc? selectedLoc;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //listens to data changes
@@ -23,6 +24,7 @@ class Homepage extends ConsumerWidget {
       screen = Padding(
         padding: const EdgeInsets.all(8.0),
         child: PlaceList(
+          selectedLoc: selectedLoc,
           places: placesList,
         ),
       );
@@ -41,12 +43,13 @@ class Homepage extends ConsumerWidget {
             ),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
+            onPressed: () async {
+              final selectedLocation = await Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const AddPlace(),
                 ),
               );
+              selectedLoc = selectedLocation;
             },
             icon: const Icon(
               Icons.add,

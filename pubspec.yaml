@@ -57,11 +57,7 @@ dev_dependencies:
   location_picker_flutter_map: ^3.0.0
   geolocator: ^10.1.0
   geocoding:
-  location:
-    git:
-      url: git@github.com:asaarnak/flutterlocation.git
-      ref: patch-1
-      path: packages/location
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

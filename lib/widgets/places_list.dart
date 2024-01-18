@@ -3,11 +3,13 @@ import '../models/place_model.dart';
 import '../pages/place_details.dart';
 
 class PlaceList extends StatelessWidget {
+  PlaceLoc? selectedLoc;
   List<Place> places;
 
   PlaceList({
     super.key,
     required this.places,
+    required this.selectedLoc,
   });
 
   @override
@@ -17,7 +19,8 @@ class PlaceList extends StatelessWidget {
       itemBuilder: (context, index) => ListTile(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => PlaceDetails(place: places[index]),
+            builder: (context) => PlaceDetails(
+                place: places[index], selectedLocation: selectedLoc),
           ),
         ),
         leading: CircleAvatar(
