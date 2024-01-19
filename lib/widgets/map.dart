@@ -22,6 +22,7 @@ class _MapsState extends State<Maps> {
   @override
   void initState() {
     _mapController = MapController();
+
     super.initState();
   }
 
@@ -38,6 +39,13 @@ class _MapsState extends State<Maps> {
     return FlutterMap(
       mapController: _mapController,
       options: MapOptions(
+        onPositionChanged: (position, hasGesture) {
+          if (hasGesture) {
+            setState(() {
+              locateCenter();
+            });
+          }
+        },
         initialCenter: LatLng(widget.lat, widget.long),
         onMapReady: () {
           setState(() {

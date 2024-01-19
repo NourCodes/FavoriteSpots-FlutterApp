@@ -24,6 +24,23 @@ class _LocationContainerState extends State<LocationContainer> {
   // address
   String? address;
 
+  void savePlace(double latitude, double longitude) async {
+    // get current position with high accuracy
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    // get address from position
+    address = await getAddress(position);
+
+    setState(() {
+      selectedLocation = PlaceLoc(
+        address: address!,
+        long: position.longitude,
+        lat: position.latitude,
+      );
+      getLocation = false;
+    });
+  }
+
   // getter for location map
   Maps get locationMap {
     final lat = selectedLocation?.lat;
@@ -58,22 +75,9 @@ class _LocationContainerState extends State<LocationContainer> {
     setState(() {
       getLocation = true;
     });
-
-    // get current position with high accuracy
-    Position position = await Geolocator.getCurrentPosition(
+    Position locationData = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    // get address from position
-    address = await getAddress(position);
-
-    setState(() {
-      selectedLocation = PlaceLoc(
-        address: address!,
-        long: position.longitude,
-        lat: position.latitude,
-      );
-      getLocation = false;
-    });
-
+    savePlace(locationData.latitude, locationData.longitude);
     // callback to parent widget with selected location
     widget.onSelectedLoc(selectedLocation!);
   }
@@ -142,15 +146,6 @@ class _LocationContainerState extends State<LocationContainer> {
                   MaterialPageRoute(
                     builder: (context) => MyMap(
                       zoomIn: 10.0,
-                      change: (data) {
-                        setState(() {
-                          selectedLocation = PlaceLoc(
-                            long: data.latLong.longitude,
-                            lat: data.latLong.latitude,
-                            address: data.address,
-                          );
-                        });
-                      },
                       pick: (data) {
                         getLocation = true;
 
@@ -170,6 +165,7 @@ class _LocationContainerState extends State<LocationContainer> {
                     ),
                   ),
                 );
+                savePlace(selectedLocation!.lat, selectedLocation!.long);
               },
               icon: const Icon(Icons.map),
               label: const Text("Select on Map"),
