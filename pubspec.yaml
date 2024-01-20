@@ -57,6 +57,9 @@ dev_dependencies:
   location_picker_flutter_map: ^3.0.0
   geolocator: ^10.1.0
   geocoding:
+  path_provider:
+  sqflite:
+  path:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

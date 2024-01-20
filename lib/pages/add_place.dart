@@ -20,6 +20,9 @@ class _AddPlaceState extends ConsumerState<AddPlace> {
   void addPlace() {
     final place = controller.text;
     if (place.isEmpty || selectedImage == null || selectedLocation == null) {
+      print(selectedLocation);
+      print(selectedImage);
+      print(place);
       return;
     }
     ref
@@ -79,7 +82,9 @@ class _AddPlaceState extends ConsumerState<AddPlace> {
             ),
             LocationContainer(
               onSelectedLoc: (location) {
-                selectedLocation = location;
+                setState(() {
+                  selectedLocation = location;
+                });
               },
             ),
             ElevatedButton.icon(

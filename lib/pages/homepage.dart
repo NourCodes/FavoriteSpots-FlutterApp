@@ -5,30 +5,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/place_model.dart';
 import '../widgets/places_list.dart';
 
-class Homepage extends ConsumerWidget {
+class Homepage extends ConsumerStatefulWidget {
   Homepage({super.key});
-  PlaceLoc? selectedLoc;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends ConsumerState<Homepage> {
+  PlaceLoc? selectedLoc;
+
+  late Future<void> placeFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    placeFuture = ref.read(placeProvider.notifier).loadData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     //listens to data changes
     final placesList = ref.watch(placeProvider);
-    Widget screen = Center(
-      child: Text(
-        "No Places Found!",
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onBackground,
-            ),
-      ),
-    );
-    if (placesList.isNotEmpty) {
-      screen = Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: PlaceList(
-          selectedLoc: selectedLoc,
-          places: placesList,
-        ),
-      );
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -59,7 +57,30 @@ class Homepage extends ConsumerWidget {
           ),
         ],
       ),
-      body: screen,
+      body: (placesList.isEmpty)
+          ? Center(
+              child: Text(
+                "No Places Found!",
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FutureBuilder(
+                future: placeFuture,
+                builder: (context, snapshot) =>
+                    (snapshot.connectionState == ConnectionState.waiting)
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : PlaceList(
+                            selectedLoc: selectedLoc,
+                            places: placesList,
+                          ),
+              ),
+            ),
     );
   }
 }

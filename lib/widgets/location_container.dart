@@ -24,7 +24,7 @@ class _LocationContainerState extends State<LocationContainer> {
   // address
   String? address;
 
-  void savePlace(double latitude, double longitude) async {
+  Future savePlace(double latitude, double longitude) async {
     // get current position with high accuracy
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
@@ -75,11 +75,18 @@ class _LocationContainerState extends State<LocationContainer> {
     setState(() {
       getLocation = true;
     });
+
     Position locationData = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    savePlace(locationData.latitude, locationData.longitude);
+    // get address from position
+    address = await getAddress(locationData);
+
+    // save place with the retrieved data
+    await savePlace(locationData.latitude, locationData.longitude);
     // callback to parent widget with selected location
     widget.onSelectedLoc(selectedLocation!);
+    // print selected location
+    print("Selected Location: $selectedLocation");
   }
 
   // method to get address from position

@@ -7,12 +7,10 @@ class Place {
   final String id;
   final String title;
   final File image;
-  final PlaceLoc? loc;
-  Place({
-    required this.title,
-    required this.image,
-    required this.loc,
-  }) : id = uid.v4();
+  final PlaceLoc loc;
+  Place(
+      {required this.title, required this.image, required this.loc, String? id})
+      : id = id ?? uid.v4();
 }
 
 class PlaceLoc {
