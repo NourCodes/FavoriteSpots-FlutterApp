@@ -17,12 +17,10 @@ class _AddPlaceState extends ConsumerState<AddPlace> {
   File? selectedImage;
   final controller = TextEditingController();
   PlaceLoc? selectedLocation;
+  // method to add a place
   void addPlace() {
     final place = controller.text;
     if (place.isEmpty || selectedImage == null || selectedLocation == null) {
-      print(selectedLocation);
-      print(selectedImage);
-      print(place);
       return;
     }
     ref

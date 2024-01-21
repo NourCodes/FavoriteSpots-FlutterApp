@@ -6,7 +6,7 @@ import '../models/place_model.dart';
 import '../widgets/places_list.dart';
 
 class Homepage extends ConsumerStatefulWidget {
-  Homepage({super.key});
+  const Homepage({super.key});
 
   @override
   ConsumerState<Homepage> createState() => _HomepageState();
@@ -20,6 +20,7 @@ class _HomepageState extends ConsumerState<Homepage> {
   @override
   void initState() {
     super.initState();
+    // Loading the data for the list of places
     placeFuture = ref.read(placeProvider.notifier).loadData();
   }
 

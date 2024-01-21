@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/place_model.dart';
-import '../widgets/map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 
@@ -91,7 +90,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                     end: Alignment.bottomCenter,
                   )),
                   child: Text(
-                    widget.place.loc!.address,
+                    widget.place.loc.address,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: Theme.of(context).colorScheme.onBackground,
                         ),
